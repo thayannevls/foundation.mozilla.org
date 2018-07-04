@@ -118,6 +118,7 @@ INSTALLED_APPS = list(filter(None, [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.sites',
+    'django.contrib.sitemaps' if DEBUG else None,
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.redirects',

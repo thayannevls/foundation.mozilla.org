@@ -26,7 +26,18 @@ from networkapi.views import EnvVariablesView, review_app_help_view
 
 admin.autodiscover()
 
-urlpatterns = list(filter(None, [
+urlpatterns = []
+
+if settings.DEBUG:
+    import debug_toolbar
+    from wagtail.contrib.sitemaps.views import sitemap
+
+    urlpatterns += [
+        url(r'^__debug__/', include(debug_toolbar.urls)),
+        url('^sitemap\.xml$', sitemap),
+    ]
+
+urlpatterns = list(filter(None, urlpatterns + [
     # social-sign-on routes so that Google auth works
     url(r'^soc/', include('social_django.urls', namespace='social')),
 
@@ -62,7 +73,6 @@ urlpatterns = list(filter(None, [
         RedirectView.as_view(url='/docs/how-do-i-wagtail/'),
         name='how-do-i-wagtail'
     ),
-
     url(r'^cms/', include(wagtailadmin_urls)),
     url(r'^documents/', include(wagtaildocs_urls)),
     url(r'', include(wagtail_urls)),
@@ -84,9 +94,3 @@ if settings.USE_S3 is not True:
         settings.MEDIA_URL,
         document_root=settings.MEDIA_ROOT
     )
-
-if settings.DEBUG:
-    import debug_toolbar
-    urlpatterns = [
-        url(r'^__debug__/', include(debug_toolbar.urls)),
-    ] + urlpatterns
