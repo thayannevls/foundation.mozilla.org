@@ -134,10 +134,10 @@ def petition_submission(request, petition):
     policy = petition.comment_requirements
     if policy != 'none':
         if policy == 'optional' and 'comment' in request.data:
-            data["Petition_Comments__c"] = request.data['comment']
+            data["comments"] = request.data['comment']
         elif policy == 'required':
             if 'comment' in request.data:
-                data["Petition_Comments__c"] = request.data['comment']
+                data["comments"] = request.data['comment']
             else:
                 return Response(
                     {'error': 'Required field "comment" is missing'},
