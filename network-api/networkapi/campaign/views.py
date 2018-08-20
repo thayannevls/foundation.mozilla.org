@@ -136,7 +136,6 @@ def petition_submission(request, petition):
         if policy == 'optional' and 'comment' in request.data:
             data["Petition_Comments__c"] = request.data['comment']
         elif policy == 'required':
-            print('x')
             if 'comment' in request.data:
                 data["Petition_Comments__c"] = request.data['comment']
             else:
