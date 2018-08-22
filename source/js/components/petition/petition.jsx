@@ -279,9 +279,10 @@ export default class Petition extends React.Component {
 
     email = email && this.validatesAsEmail(email);
 
+    let consent = this.refs.privacy.checked;
     let country = true;
     let postalCode = true;
-    let consent = this.refs.privacy.checked;
+    let comment = true;
 
     if (this.props.requiresCountryCode === `True`) {
       country = !!this.country.element.value;
@@ -291,7 +292,12 @@ export default class Petition extends React.Component {
       postalCode = !!this.postalCode.element.value;
     }
 
-    if (hasName && email && consent && country && postalCode) {
+
+    if (this.props.commentRequirements === `required`) {
+      comment = !!this.comment.element.value;
+    }
+
+    if (hasName && email && consent && country && postalCode && comment) {
       this.submitDataToApi()
         .then(() => {
           this.apiSubmissionSuccessful();
